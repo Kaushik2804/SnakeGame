@@ -1,0 +1,181 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+
+int width=20,height=20,gameOver;
+int x,y,fruitX,fruitY,score,flag;
+int tailX[100],tailY[100];
+int CountTail=0;
+void setup()
+{
+gameOver=0;
+x=width/2;
+y=height/2;
+label1:
+fruitX=rand()%20;
+if(fruitX==0)
+goto label1;
+label2:
+fruitY=rand()%20;
+if(fruitY==0)
+goto label2;
+score=0;
+}
+void draw()
+{
+int i,j,k;
+system(&quot;cls&quot;);
+for(i=0;i&lt;width;i++)
+{
+for(j=0;j&lt;height;j++)
+
+7
+
+{
+if(i==0||i==height-1||j==0||j==width-1)
+{
+printf(&quot;#&quot;);
+}
+else
+{
+if(i==x &amp;&amp; j==y)
+{
+printf(&quot;O&quot;);
+}
+else if(i==fruitX&amp;&amp;j==fruitY)
+{
+printf(&quot;F&quot;);
+}
+else
+{
+int ch=0;
+for(k=0;k&lt;CountTail;k++)
+{
+if(i==tailX[k] &amp;&amp; j==tailY[k])
+{
+printf(&quot;o&quot;);
+ch=1;
+}
+}
+if(ch==0)
+printf(&quot; &quot;);
+}
+}
+}
+printf(&quot;\n&quot;);
+}
+printf(&quot;SCORE=%d&quot;,score);
+} //end of loop
+void input()
+{
+if(kbhit())
+
+8
+
+{
+switch(getch())
+{
+case &#39;a&#39;: //aswz
+flag=1;
+break;
+case &#39;s&#39;:
+flag=2;
+break;
+case &#39;w&#39;:
+flag=3;
+break;
+case &#39;z&#39;:
+flag=4;
+break;
+case &#39;x&#39;:
+gameOver=1;
+break;
+}
+}
+}
+void MakeLogic()
+{
+int i;
+int prevX=tailX[0];
+int prevY=tailY[0];
+int prev2X,prev2Y;
+tailX[0]=x;
+tailY[0]=y;
+for(i=1;i&lt;CountTail;i++)
+{
+prev2X=tailX[i];
+prev2Y=tailY[i];
+tailX[i]=prevX;
+tailY[i]=prevY;
+prevX=prev2X;
+prevY=prev2Y;
+
+9
+
+}
+switch(flag)
+{
+case 1:
+y--;
+break;
+case 2:
+y++;
+break;
+case 3:
+x--;
+break;
+case 4:
+x++;
+break;
+default:
+break;
+}
+if(x&lt;0||x&gt;width||y&lt;0||y&gt;height)
+gameOver=1;
+for(i=0;i&lt;CountTail;i++)
+{
+if(x==tailX[i] &amp;&amp; y==tailY[i])
+gameOver=1;
+}
+if(x==fruitX &amp;&amp; y==fruitY)
+{
+label3:
+fruitX=rand()%20;
+if(fruitX==0)
+goto label3;
+label4:
+fruitY=rand()%20;
+if(fruitY==0)
+goto label4;
+score+=10;
+CountTail++;
+
+10
+
+}
+}
+int main()
+{
+int m,n;
+char c;
+label5:
+setup();
+while(!gameOver){
+draw();
+input();
+MakeLogic();
+for(m=0;m&lt;1000;m++){
+for(n=0;n&lt;10000;n++){
+}
+}
+for(m=0;m&lt;100;m++){
+for(n=0;n&lt;1000;n++){
+}
+}
+}
+printf(&quot;\nPress Y to continue again:&quot;);
+scanf(&quot;%c&quot;,&amp;c);
+if(c==&#39;y&#39;||c==&#39;Y&#39;)
+goto label5;
+return 0;
+}
